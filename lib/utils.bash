@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for uv.
 GH_REPO="https://github.com/astral-sh/uv"
 TOOL_NAME="uv"
 TOOL_TEST="uv --version"
@@ -31,18 +30,29 @@ list_github_tags() {
 }
 
 list_all_versions() {
-	# TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-	# Change this function if uv has other means of determining installable versions.
 	list_github_tags
 }
 
 download_release() {
-	local version filename url
+	local version filename url architecture unameOut os
 	version="$1"
 	filename="$2"
 
-	# TODO: Adapt the release URL convention for uv
-	url="$GH_REPO/archive/v${version}.tar.gz"
+	architecture="$(uname --machine)"
+	unameOut="$(uname -s)"
+	case "${unameOut}" in
+	"Linux")
+		libc=$(ldd /bin/ls | grep 'musl' | head -1 | cut -d ' ' -f1)
+		if [ -z "$libc" ]; then
+			os='unknown-linux-gnu'
+		else
+			os='unknown-linux-musl'
+		fi
+		;;
+	Darwin) os='apple-darwin' ;;
+	esac
+
+	url="${GH_REPO}/releases/download/${version}/uv-${architecture}-${os}.tar.gz"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
@@ -61,7 +71,6 @@ install_version() {
 		mkdir -p "$install_path"
 		cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
 
-		# TODO: Assert uv executable exists.
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
