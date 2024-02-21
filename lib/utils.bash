@@ -34,25 +34,11 @@ list_all_versions() {
 }
 
 download_release() {
-	local version filename url architecture unameOut os
+	local version filename url
 	version="$1"
 	filename="$2"
 
-	architecture="$(uname --machine)"
-	unameOut="$(uname -s)"
-	case "${unameOut}" in
-	"Linux")
-		libc=$(ldd /bin/ls | grep 'musl' | head -1 | cut -d ' ' -f1)
-		if [ -z "$libc" ]; then
-			os='unknown-linux-gnu'
-		else
-			os='unknown-linux-musl'
-		fi
-		;;
-	Darwin) os='apple-darwin' ;;
-	esac
-
-	url="${GH_REPO}/releases/download/${version}/uv-${architecture}-${os}.tar.gz"
+	url="$GH_REPO/releases/download/${version}/${filename}"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"

@@ -1,16 +1,29 @@
 #!/usr/bin/env bash
-
+set -x
 set -euo pipefail
 
 current_script_path=${BASH_SOURCE[0]}
 plugin_dir=$(dirname "$(dirname "$current_script_path")")
 
-# shellcheck source=./lib/utils.bash
+# shellcheck source=../lib/utils.bash
 source "${plugin_dir}/lib/utils.bash"
 
 mkdir -p "$ASDF_DOWNLOAD_PATH"
 
-release_file="$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$ASDF_INSTALL_VERSION.tar.gz"
+uname_s="$(uname -s)"
+uname_m="$(uname -m)"
+os=""
+
+if [ "$uname_m" = "arm64" ]; then
+	uname_m="aarch64"
+fi
+
+case "$uname_s" in
+Darwin) os="apple-darwin" ;;
+Linux) os="unknown-linux-gnu" ;;
+*) fail "OS not supported: $uname_s" ;;
+esac
+release_file="${TOOL_NAME}-${uname_m}-${os}.tar.gz"
 
 # Download tar.gz file to the download directory
 download_release "$ASDF_INSTALL_VERSION" "$release_file"
