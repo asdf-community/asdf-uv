@@ -19,7 +19,13 @@ fi
 
 case "$uname_s" in
 Darwin) os="apple-darwin" ;;
-Linux) os="unknown-linux-gnu" ;;
+Linux)
+	os="unknown-linux-gnu"
+	if [ "$uname_m" = "armv7l" ]; then
+		uname_m="armv7"
+		os="${os}eabihf"
+	fi
+	;;
 *) fail "OS not supported: $uname_s" ;;
 esac
 release_file="${TOOL_NAME}-${uname_m}-${os}.tar.gz"
