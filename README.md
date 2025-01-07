@@ -1,6 +1,6 @@
 <div align="center">
 
-# asdf-uv [![Build](https://github.com/b1-luettje/asdf-uv/actions/workflows/build.yml/badge.svg)](https://github.com/b1-luettje/asdf-uv/actions/workflows/build.yml) [![Lint](https://github.com/b1-luettje/asdf-uv/actions/workflows/lint.yml/badge.svg)](https://github.com/b1-luettje/asdf-uv/actions/workflows/lint.yml)
+# asdf-uv [![Build](https://github.com/asdf-community/asdf-uv/actions/workflows/build.yml/badge.svg)](https://github.com/asdf-community/asdf-uv/actions/workflows/build.yml) [![Lint](https://github.com/asdf-community/asdf-uv/actions/workflows/lint.yml/badge.svg)](https://github.com/asdf-community/asdf-uv/actions/workflows/lint.yml)
 
 [uv](https://github.com/astral-sh/uv) plugin for the [asdf version manager](https://asdf-vm.com).
 
@@ -25,7 +25,7 @@ Plugin:
 ```shell
 asdf plugin add uv
 # or
-asdf plugin add uv https://github.com/b1-luettje/asdf-uv.git
+asdf plugin add uv https://github.com/asdf-community/asdf-uv.git
 ```
 
 uv:
@@ -51,7 +51,7 @@ install & manage versions.
 
 Contributions of any kind welcome! See the [contributing guide](contributing.md).
 
-[Thanks goes to these contributors](https://github.com/b1-luettje/asdf-uv/graphs/contributors)!
+[Thanks goes to these contributors](https://github.com/asdf-community/asdf-uv/graphs/contributors)!
 
 # License
 
