@@ -21,7 +21,9 @@ case "$uname_s" in
 Darwin) os="apple-darwin" ;;
 Linux)
 	os="unknown-linux-gnu"
-	if [ "$uname_m" = "armv7l" ]; then
+	if [ "$uname_m" = "aarch64" ]; then
+		os="unknown-linux-musl"
+	elif [ "$uname_m" = "armv7l" ]; then
 		uname_m="armv7"
 		os="${os}eabihf"
 	fi
